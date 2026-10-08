@@ -1,62 +1,1589 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AISA Tech Escape Room</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#02090b;color:#d8f8f2;font:15px Consolas,monospace}
-#start{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle,#0a3035,#02090b 65%);z-index:5;padding:20px}
-.card,.panel,.top{background:#061519;border:1px solid #154047;border-radius:14px}.card{width:min(620px,100%);padding:28px}
-h1,h2{color:#00ff9d}h1{margin:0 0 8px}label{display:block;color:#8eb5ae;margin:12px 0 6px}
-input{width:100%;padding:13px;border-radius:9px;border:1px solid #28585e;background:#02090b;color:#fff}
-button{padding:13px 18px;border-radius:9px;border:1px solid #00ff9d;background:#00ff9d;color:#02100c;font-weight:bold;cursor:pointer;margin:8px 6px 0 0}
-.alt{background:transparent;color:#00ff9d}.hidden{display:none!important}
-#game{max-width:1200px;margin:auto;padding:15px}.top{padding:13px 16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;position:sticky;top:5px;z-index:4}
-.green{color:#00ff9d}.badge{border:1px solid #28585e;padding:7px 10px;border-radius:8px}.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-.panel{padding:17px}.room{width:100%;height:350px;object-fit:cover;border-radius:10px;border:1px solid #28585e}.level{color:#00ff9d;letter-spacing:2px}
-.question{white-space:pre-line;font-size:19px;line-height:1.5;color:#fff}.clue{margin:15px 0;padding:12px;background:#071b1f;border-left:3px solid #00ff9d;color:#b8d7d1;white-space:pre-line}
-#feedback{min-height:28px;margin-top:10px;font-weight:bold}.good{color:#00ff9d}.bad{color:#ff6666}.hint{color:#ffd166}.progress{height:7px;background:#082126;margin-top:10px;border-radius:8px;overflow:hidden}.progress i{display:block;height:100%;background:#00ff9d;width:0}
-.finish{text-align:center}.big{font-size:55px;color:#00ff9d}@media(max-width:800px){.layout{grid-template-columns:1fr}.room{height:260px}}
-</style>
-</head>
-<body>
-<div id="start"><div class="card">
-<h1>🔐 AISA TECH ESCAPE</h1><p>7-level cyber mission • Team of 2</p>
-<label>Team Name</label><input id="team" maxlength="30" placeholder="TEAM ALPHA">
-<label>Member 1</label><input id="m1" maxlength="40" placeholder="Participant name">
-<label>Member 2</label><input id="m2" maxlength="40" placeholder="Participant name">
-<button onclick="startGame()">INITIALIZE MISSION</button>
-</div></div>
+<!DOCTYPE html>
 
-<div id="game" class="hidden">
-<div class="top"><b class="green">🔐 AISA // ESCAPE NODE</b>
-<div><span class="badge">TEAM: <b id="tv"></b></span> <span class="badge">TIME: <b id="timer">00:00</b></span> <span class="badge">LEVEL: <b id="lv">1/7</b></span></div></div>
-<div class="progress"><i id="bar"></i></div>
-<div class="layout"><div class="panel"><img src="room.svg" class="room" alt="Cyber escape room"><p>Search the clues and solve each level. Stay on this page.</p></div><div class="panel" id="puzzle"></div></div>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
+<title>AISA Tech Escape Room</title>
+
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+
+body {
+
+  margin: 0;
+
+  background: #02090b;
+
+  color: #d8f8f2;
+
+  font-family: Consolas, Monaco, monospace;
+
+  min-height: 100vh;
+
+}
+
+
+button,
+input {
+
+  font: inherit;
+
+}
+
+
+.hidden {
+
+  display: none !important;
+
+}
+
+
+/* =========================================================
+   START SCREEN
+   ========================================================= */
+
+#start {
+
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #0a3035,
+      #02090b 65%
+    );
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 20;
+
+}
+
+
+.card {
+
+  width: min(620px, 100%);
+
+  background: #061519;
+
+  border: 1px solid #1a5960;
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  box-shadow:
+    0 0 40px rgba(0,255,157,0.08);
+
+}
+
+
+.card h1 {
+
+  margin: 0 0 10px;
+
+  color: #00ff9d;
+
+  font-size: clamp(
+    28px,
+    5vw,
+    42px
+  );
+
+}
+
+
+.card p {
+
+  color: #8eb5ae;
+
+}
+
+
+label {
+
+  display: block;
+
+  color: #8eb5ae;
+
+  margin:
+    15px 0 7px;
+
+}
+
+
+input {
+
+  width: 100%;
+
+  background: #02090b;
+
+  color: white;
+
+  border: 1px solid #28585e;
+
+  border-radius: 10px;
+
+  padding: 13px;
+
+  outline: none;
+
+}
+
+
+input:focus {
+
+  border-color: #00ff9d;
+
+}
+
+
+.btn {
+
+  border: 1px solid #00ff9d;
+
+  background: #00ff9d;
+
+  color: #02100c;
+
+  padding:
+    13px 20px;
+
+  border-radius: 10px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  margin-top: 20px;
+
+}
+
+
+.btn:hover {
+
+  opacity: 0.85;
+
+}
+
+
+/* =========================================================
+   GAME
+   ========================================================= */
+
+#game {
+
+  max-width: 1250px;
+
+  margin: auto;
+
+  padding: 15px;
+
+}
+
+
+.top {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+  background: #061519;
+
+  border: 1px solid #154047;
+
+  border-radius: 14px;
+
+  padding:
+    14px 16px;
+
+  position: sticky;
+
+  top: 5px;
+
+  z-index: 10;
+
+}
+
+
+.brand {
+
+  color: #00ff9d;
+
+  font-weight: 900;
+
+}
+
+
+.badge {
+
+  display: inline-block;
+
+  padding:
+    7px 10px;
+
+  border:
+    1px solid #28585e;
+
+  border-radius: 8px;
+
+  background: #02090b;
+
+  margin-left: 5px;
+
+}
+
+
+.green {
+
+  color: #00ff9d;
+
+}
+
+
+.progress {
+
+  height: 8px;
+
+  background: #082126;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  margin-top: 10px;
+
+}
+
+
+.progress i {
+
+  display: block;
+
+  height: 100%;
+
+  background: #00ff9d;
+
+  width: 0;
+
+  transition:
+    width 0.3s ease;
+
+}
+
+
+.layout {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 18px;
+
+  margin-top: 18px;
+
+}
+
+
+.panel {
+
+  background: #061519;
+
+  border:
+    1px solid #154047;
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+}
+
+
+.room {
+
+  width: 100%;
+
+  height: 360px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  border:
+    1px solid #28585e;
+
+}
+
+
+.level {
+
+  color: #00ff9d;
+
+  letter-spacing: 2px;
+
+  font-size: 13px;
+
+}
+
+
+.question {
+
+  font-size: 19px;
+
+  line-height: 1.55;
+
+  color: white;
+
+  white-space: pre-line;
+
+  margin:
+    15px 0;
+
+}
+
+
+.clue {
+
+  background: #071b1f;
+
+  border-left:
+    3px solid #00ff9d;
+
+  padding: 12px;
+
+  margin:
+    15px 0;
+
+  color: #b8d7d1;
+
+}
+
+
+#feedback {
+
+  min-height: 28px;
+
+  margin-top: 12px;
+
+  font-weight: bold;
+
+}
+
+
+.good {
+
+  color: #00ff9d;
+
+}
+
+
+.bad {
+
+  color: #ff6666;
+
+}
+
+
+.hint {
+
+  color: #ffd166;
+
+}
+
+
+.alt {
+
+  background: transparent;
+
+  color: #00ff9d;
+
+  border:
+    1px solid #00ff9d;
+
+  padding:
+    12px 18px;
+
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  margin-top: 10px;
+
+}
+
+
+.finish {
+
+  text-align: center;
+
+}
+
+
+.big {
+
+  font-size: 60px;
+
+  color: #00ff9d;
+
+}
+
+
+.finish h2 {
+
+  color: #00ff9d;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width: 800px) {
+
+  .layout {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .room {
+
+    height: 260px;
+
+  }
+
+  .top {
+
+    position: static;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     START SCREEN
+     ======================================================= -->
+
+<div id="start">
+
+  <div class="card">
+
+    <h1>🔐 AISA TECH ESCAPE</h1>
+
+    <p>
+      7-level cyber mission • Team of 2
+    </p>
+
+
+    <label>
+      Team Name
+    </label>
+
+    <input
+      id="team"
+      maxlength="30"
+      placeholder="TEAM ALPHA"
+    >
+
+
+    <label>
+      Member 1
+    </label>
+
+    <input
+      id="m1"
+      maxlength="40"
+      placeholder="Participant name"
+    >
+
+
+    <label>
+      Member 2
+    </label>
+
+    <input
+      id="m2"
+      maxlength="40"
+      placeholder="Participant name"
+    >
+
+
+    <button
+      class="btn"
+      onclick="startGame()"
+    >
+      INITIALIZE MISSION
+    </button>
+
+  </div>
+
 </div>
 
+
+<!-- =======================================================
+     GAME
+     ======================================================= -->
+
+<div
+  id="game"
+  class="hidden"
+>
+
+
+  <div class="top">
+
+    <div class="brand">
+      🔐 AISA // ESCAPE NODE
+    </div>
+
+
+    <div>
+
+      <span class="badge">
+        TEAM:
+        <b id="tv"></b>
+      </span>
+
+
+      <span class="badge">
+        TIME:
+        <b id="timer">
+          00:00
+        </b>
+      </span>
+
+
+      <span class="badge">
+        LEVEL:
+        <b id="lv">
+          1/7
+        </b>
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="progress">
+
+    <i id="bar"></i>
+
+  </div>
+
+
+  <div class="layout">
+
+
+    <!-- ROOM IMAGE -->
+
+    <div class="panel">
+
+      <img
+        src="room.svg"
+        class="room"
+        alt="Cyber escape room"
+      >
+
+      <p>
+        Search the clues and solve each level.
+        Stay on this page.
+      </p>
+
+    </div>
+
+
+    <!-- PUZZLE -->
+
+    <div
+      class="panel"
+      id="puzzle"
+    ></div>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- =======================================================
+     HIDDEN SUBMIT FRAME
+     ======================================================= -->
+
+<iframe
+  name="aisa_submit_frame"
+  id="aisa_submit_frame"
+  style="display:none"
+></iframe>
+
+
 <script>
-const API="https://script.google.com/macros/s/AKfycbzURxkF95BEOtWEA8TiGcNSnpelwdoVNiCawyQcMgsz-3E731ycT8ME1Ajpw62NMoSM/exec";
-const L=[
-["CYBER LOCK","A binary lock displays:\n01000110 01001001 01010110 01000101\nConvert it to a word. Count its letters × 7.","01000110=F, 01001001=I, 01010110=V, 01000101=E.","28"],
-["ENCRYPTED MESSAGE","KHOOR is encrypted with a Caesar shift. Shift each letter backward by 3. Then calculate H + O using A=1...Z=26.","KHOOR → HELLO. H=8, O=15.","23"],
-["LOGIC GRID","Codes: A=14, B=25, C=36, D=47. Find the code whose first digit is PRIME and second digit is EVEN. Multiply its first digit by 3.","36 works: 3 is prime and 6 is even.","9"],
-["NETWORK TRACE","PC-A 192.168.1.20\nPC-B 10.0.0.14\nPC-C 8.8.8.8\nPC-D 172.20.5.9\nChoose the PRIVATE address with an EVEN last octet, but NOT 192.168.x.x. Add 6.","10.0.0.14 → 14+6.","20"],
-["DEBUG THE AI","values=[2,4,1]\nx=0\nfor v: x=x*10+v\nx=x+5\nprint(x*2)\nWhat is printed?","241 → +5 = 246 → ×2.","492"],
-["DATABASE BREACH","Scores: Arun 72, Kabir 88, Neha 79. Keep scores >=75, sort highest first, then take the first person's initial's alphabet position.","Kabir is first. K is 11.","11"],
-["MASTER TERMINAL","L1=28, L2=23, L3=9, L4=20, L5=492, L6=11\nA=L1+L2; B=L3+L4; C=last digit of L5; D=L6. Join A,B,C,D with no symbols.","A=51, B=29, C=2, D=11 → 5129211","5129211"]
+
+
+// ============================================================
+// GOOGLE APPS SCRIPT URL
+// ============================================================
+
+const API =
+"https://script.google.com/macros/s/AKfycbxyrkIEMWMQOqbti6h3AoLKYX-5hD8ql-WsuWoLoTilPzqsD-MiVfkFmamtsOzQfpia/exec";
+
+
+// ============================================================
+// PUZZLES
+// ============================================================
+
+const LEVELS = [
+
+
+  // ----------------------------------------------------------
+  // LEVEL 1
+  // ----------------------------------------------------------
+
+  {
+    title: "CYBER LOCK",
+
+    question:
+`A binary lock displays:
+
+01000110 01001001 01010110 01000101
+
+Convert it to a word.
+Count its letters and multiply by 7.`,
+
+    hint:
+      "01000110=F, 01001001=I, 01010110=V, 01000101=E.",
+
+    answer: "28"
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LEVEL 2
+  // ----------------------------------------------------------
+
+  {
+    title: "ENCRYPTED MESSAGE",
+
+    question:
+`KHOOR is encrypted with a Caesar shift.
+
+Shift every letter backward by 3.
+
+Then calculate H + O using A=1 ... Z=26.`,
+
+    hint:
+      "KHOOR → HELLO. H=8 and O=15.",
+
+    answer: "23"
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LEVEL 3
+  // ----------------------------------------------------------
+
+  {
+    title: "LOGIC GRID",
+
+    question:
+`Codes:
+
+A = 14
+B = 25
+C = 36
+D = 47
+
+Find the code whose first digit is PRIME
+and whose second digit is EVEN.
+
+Multiply its first digit by 3.`,
+
+    hint:
+      "36 works: 3 is prime and 6 is even.",
+
+    answer: "9"
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LEVEL 4
+  // ----------------------------------------------------------
+
+  {
+    title: "NETWORK TRACE",
+
+    question:
+`PC-A  192.168.1.20
+PC-B  10.0.0.14
+PC-C  8.8.8.8
+PC-D  172.20.5.9
+
+Choose the PRIVATE address with an EVEN
+last octet, but NOT 192.168.x.x.
+
+Add 6 to its last octet.`,
+
+    hint:
+      "10.0.0.14 → 14 + 6.",
+
+    answer: "20"
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LEVEL 5
+  // ----------------------------------------------------------
+
+  {
+    title: "DEBUG THE AI",
+
+    question:
+`values = [2,4,1]
+
+x = 0
+
+for v:
+    x = x*10 + v
+
+x = x + 5
+
+print(x * 2)
+
+What is printed?`,
+
+    hint:
+      "241 → +5 = 246 → ×2.",
+
+    answer: "492"
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LEVEL 6
+  // ----------------------------------------------------------
+
+  {
+    title: "DATABASE BREACH",
+
+    question:
+`Scores:
+
+Arun  72
+Kabir 88
+Neha  79
+
+Keep scores >=75.
+Sort highest first.
+
+Then take the first person's initial's
+alphabet position.`,
+
+    hint:
+      "Kabir is first. K is the 11th letter.",
+
+    answer: "11"
+
+  },
+
+
+  // ----------------------------------------------------------
+  // LEVEL 7
+  // ----------------------------------------------------------
+
+  {
+    title: "MASTER TERMINAL",
+
+    question:
+`Previous answers:
+
+L1 = 28
+L2 = 23
+L3 = 9
+L4 = 20
+L5 = 492
+L6 = 11
+
+A = L1 + L2
+B = L3 + L4
+C = last digit of L5
+D = L6
+
+Join A, B, C and D with NO symbols.`,
+
+    hint:
+      "A=51, B=29, C=2, D=11 → 5129211",
+
+    answer: "5129211"
+
+  }
+
 ];
-let S={team:"",m1:"",m2:"",n:0,h:0,start:0,lock:false};
-function startGame(){S.team=team.value.trim();S.m1=m1.value.trim();S.m2=m2.value.trim();if(!S.team||!S.m1||!S.m2){alert("Enter team and both participant names.");return}S.start=Date.now();document.getElementById("start").classList.add("hidden");game.classList.remove("hidden");tv.textContent=S.team;render();send("STARTED")}
-function render(){let x=L[S.n];lv.textContent=(S.n+1)+"/7";bar.style.width=(S.n/7*100)+"%";puzzle.innerHTML='<div class="level">LEVEL '+(S.n+1)+' // '+esc(x[0])+'</div><h2>'+esc(x[0])+'</h2><div class="question">'+esc(x[1])+'</div><div class="clue">MISSION: Solve and submit.</div><input id="ans" inputmode="numeric" placeholder="ENTER ANSWER"><button onclick="check()">SUBMIT</button><button class="alt" onclick="hint()">HINT (-1)</button><div id="feedback"></div>';ans.focus();ans.onkeydown=e=>{if(e.key==="Enter")check()}}
-function check(){if(S.lock)return;let f=feedback;if(ans.value.trim()===L[S.n][3]){f.className="good";f.textContent="✓ ACCESS GRANTED";S.lock=true;setTimeout(()=>{S.lock=false;if(S.n===6){finish()}else{S.n++;send("STARTED");render()}},500)}else{f.className="bad";f.textContent="✕ ACCESS DENIED — TRY AGAIN";ans.select()}}
-function hint(){S.h++;feedback.className="hint";feedback.textContent="HINT: "+L[S.n][2];send("STARTED")}
-function finish(){bar.style.width="100%";let t=Math.floor((Date.now()-S.start)/1000);puzzle.innerHTML='<div class="finish"><div class="big">✓</div><h2>MISSION COMPLETE</h2><p>Team <b>'+esc(S.team)+'</b> cleared all 7 levels.</p><h2>'+fmt(t)+'</h2><p>Hints used: '+S.h+'</p><p class="good">RESULT SAVED FOR ADMIN</p></div>';send("FINISHED")}
-function send(status){if(!API)return;fetch(API,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({team:S.team,member1:S.m1,member2:S.m2,status:status,level:String(S.n+1),hints:String(S.h),elapsedSeconds:Math.floor((Date.now()-S.start)/1000)})}).catch(()=>{})}
-function fmt(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
-function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-setInterval(()=>{if(S.start)timer.textContent=fmt(Math.floor((Date.now()-S.start)/1000))},1000);
-window.open=function(){return null};document.addEventListener("click",e=>{let a=e.target.closest&&e.target.closest("a");if(a)a.target="_self"});
+
+
+// ============================================================
+// GAME STATE
+// ============================================================
+
+let state = {
+
+  team: "",
+
+  member1: "",
+
+  member2: "",
+
+  level: 0,
+
+  hints: 0,
+
+  startTime: 0,
+
+  finished: false,
+
+  locked: false
+
+};
+
+
+// ============================================================
+// START GAME
+// ============================================================
+
+function startGame() {
+
+
+  state.team =
+    document
+      .getElementById("team")
+      .value
+      .trim();
+
+
+  state.member1 =
+    document
+      .getElementById("m1")
+      .value
+      .trim();
+
+
+  state.member2 =
+    document
+      .getElementById("m2")
+      .value
+      .trim();
+
+
+  if (
+    !state.team ||
+    !state.member1 ||
+    !state.member2
+  ) {
+
+    alert(
+      "Enter team name and both participant names."
+    );
+
+    return;
+
+  }
+
+
+  state.level = 0;
+
+  state.hints = 0;
+
+  state.finished = false;
+
+  state.locked = false;
+
+  state.startTime = Date.now();
+
+
+  document
+    .getElementById("start")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("game")
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById("tv")
+    .textContent =
+      state.team;
+
+
+  renderLevel();
+
+
+  // SAVE START
+  sendResult("STARTED");
+
+}
+
+
+// ============================================================
+// RENDER LEVEL
+// ============================================================
+
+function renderLevel() {
+
+
+  const level =
+    LEVELS[state.level];
+
+
+  document
+    .getElementById("lv")
+    .textContent =
+      (state.level + 1) +
+      "/7";
+
+
+  document
+    .getElementById("bar")
+    .style.width =
+      (
+        state.level /
+        LEVELS.length *
+        100
+      ) + "%";
+
+
+  document
+    .getElementById("puzzle")
+    .innerHTML = `
+
+      <div class="level">
+
+        LEVEL ${state.level + 1}
+        //
+        ${escapeHTML(level.title)}
+
+      </div>
+
+
+      <h2>
+
+        ${escapeHTML(level.title)}
+
+      </h2>
+
+
+      <div class="question">
+
+        ${escapeHTML(level.question)}
+
+      </div>
+
+
+      <div class="clue">
+
+        MISSION:
+        Solve the puzzle and
+        submit the answer.
+
+      </div>
+
+
+      <input
+        id="answer"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="ENTER ANSWER"
+      >
+
+
+      <br>
+
+
+      <button
+        class="btn"
+        onclick="checkAnswer()"
+      >
+
+        SUBMIT
+
+      </button>
+
+
+      <button
+        class="alt"
+        onclick="showHint()"
+      >
+
+        HINT (-1)
+
+      </button>
+
+
+      <div
+        id="feedback"
+      ></div>
+
+    `;
+
+
+  const answer =
+    document.getElementById(
+      "answer"
+    );
+
+
+  answer.focus();
+
+
+  answer.addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        checkAnswer();
+
+      }
+
+    }
+  );
+
+}
+
+
+// ============================================================
+// CHECK ANSWER
+// ============================================================
+
+function checkAnswer() {
+
+
+  if (state.locked) {
+    return;
+  }
+
+
+  const input =
+    document.getElementById(
+      "answer"
+    );
+
+
+  const feedback =
+    document.getElementById(
+      "feedback"
+    );
+
+
+  const userAnswer =
+    input.value.trim();
+
+
+  const correctAnswer =
+    LEVELS[state.level].answer;
+
+
+  if (
+    userAnswer ===
+    correctAnswer
+  ) {
+
+
+    feedback.className =
+      "good";
+
+
+    feedback.textContent =
+      "✓ ACCESS GRANTED";
+
+
+    state.locked = true;
+
+
+    setTimeout(
+      function() {
+
+
+        state.locked = false;
+
+
+        // LAST LEVEL
+        if (
+          state.level ===
+          LEVELS.length - 1
+        ) {
+
+          finishGame();
+
+          return;
+
+        }
+
+
+        state.level++;
+
+
+        // SAVE PROGRESS
+        sendResult("STARTED");
+
+
+        renderLevel();
+
+
+      },
+      600
+    );
+
+
+  }
+
+  else {
+
+
+    feedback.className =
+      "bad";
+
+
+    feedback.textContent =
+      "✕ ACCESS DENIED — TRY AGAIN";
+
+
+    input.select();
+
+  }
+
+}
+
+
+// ============================================================
+// HINT
+// ============================================================
+
+function showHint() {
+
+
+  state.hints++;
+
+
+  const feedback =
+    document.getElementById(
+      "feedback"
+    );
+
+
+  feedback.className =
+    "hint";
+
+
+  feedback.textContent =
+    "HINT: " +
+    LEVELS[state.level].hint;
+
+
+  sendResult("STARTED");
+
+}
+
+
+// ============================================================
+// FINISH GAME
+// ============================================================
+
+function finishGame() {
+
+
+  state.finished = true;
+
+
+  const elapsed =
+    Math.floor(
+      (
+        Date.now() -
+        state.startTime
+      ) / 1000
+    );
+
+
+  document
+    .getElementById("bar")
+    .style.width =
+      "100%";
+
+
+  // STOP TIMER DISPLAY
+  document
+    .getElementById("timer")
+    .textContent =
+      formatTime(elapsed);
+
+
+  document
+    .getElementById("puzzle")
+    .innerHTML = `
+
+      <div class="finish">
+
+        <div class="big">
+          ✓
+        </div>
+
+
+        <h2>
+          MISSION COMPLETE
+        </h2>
+
+
+        <p>
+          Team
+          <b>
+            ${escapeHTML(state.team)}
+          </b>
+          cleared all 7 levels.
+        </p>
+
+
+        <h2>
+          ${formatTime(elapsed)}
+        </h2>
+
+
+        <p>
+          Hints used:
+          <b>${state.hints}</b>
+        </p>
+
+
+        <p class="good">
+
+          RESULT SAVED FOR ADMIN
+
+        </p>
+
+      </div>
+
+  `;
+
+
+  // FINAL RESULT
+  sendResult("FINISHED");
+
+}
+
+
+// ============================================================
+// SEND RESULT
+//
+// Uses a normal HTML form POST to a hidden iframe.
+// This avoids CORS/fetch problems.
+// ============================================================
+
+function sendResult(status) {
+
+
+  if (!API) {
+    return;
+  }
+
+
+  const elapsed =
+    Math.floor(
+      (
+        Date.now() -
+        state.startTime
+      ) / 1000
+    );
+
+
+  const form =
+    document.createElement(
+      "form"
+    );
+
+
+  form.method =
+    "POST";
+
+
+  form.action =
+    API;
+
+
+  form.target =
+    "aisa_submit_frame";
+
+
+  form.style.display =
+    "none";
+
+
+  const data = {
+
+    team:
+      state.team,
+
+    member1:
+      state.member1,
+
+    member2:
+      state.member2,
+
+    status:
+      status,
+
+    level:
+      String(
+        state.level + 1
+      ),
+
+    hints:
+      String(
+        state.hints
+      ),
+
+    elapsedSeconds:
+      String(
+        elapsed
+      )
+
+  };
+
+
+  Object.keys(data)
+    .forEach(
+      function(key) {
+
+
+        const input =
+          document.createElement(
+            "input"
+          );
+
+
+        input.type =
+          "hidden";
+
+
+        input.name =
+          key;
+
+
+        input.value =
+          data[key];
+
+
+        form.appendChild(
+          input
+        );
+
+
+      }
+    );
+
+
+  document.body.appendChild(
+    form
+  );
+
+
+  form.submit();
+
+
+  setTimeout(
+    function() {
+
+      if (
+        form.parentNode
+      ) {
+
+        form.parentNode
+          .removeChild(form);
+
+      }
+
+    },
+    2000
+  );
+
+}
+
+
+// ============================================================
+// TIMER
+// ============================================================
+
+setInterval(
+  function() {
+
+
+    if (
+      state.startTime &&
+      !state.finished
+    ) {
+
+
+      const seconds =
+        Math.floor(
+          (
+            Date.now() -
+            state.startTime
+          ) / 1000
+        );
+
+
+      document
+        .getElementById("timer")
+        .textContent =
+          formatTime(seconds);
+
+    }
+
+  },
+  1000
+);
+
+
+// ============================================================
+// FORMAT TIME
+// ============================================================
+
+function formatTime(seconds) {
+
+
+  const minutes =
+    Math.floor(
+      seconds / 60
+    );
+
+
+  const remaining =
+    seconds % 60;
+
+
+  return (
+    String(minutes)
+      .padStart(2, "0") +
+    ":" +
+    String(remaining)
+      .padStart(2, "0")
+  );
+
+}
+
+
+// ============================================================
+// HTML ESCAPE
+// ============================================================
+
+function escapeHTML(value) {
+
+
+  return String(value)
+    .replace(
+      /[&<>"']/g,
+      function(character) {
+
+        return {
+
+          "&": "&amp;",
+
+          "<": "&lt;",
+
+          ">": "&gt;",
+
+          '"': "&quot;",
+
+          "'": "&#39;"
+
+        }[character];
+
+      }
+    );
+
+}
+
+
+// ============================================================
+// PREVENT GAME FROM OPENING NEW WINDOWS
+// ============================================================
+
+window.open =
+  function() {
+
+    return null;
+
+  };
+
+
+document.addEventListener(
+  "click",
+  function(event) {
+
+
+    const link =
+      event.target.closest &&
+      event.target.closest("a");
+
+
+    if (link) {
+
+      link.target =
+        "_self";
+
+    }
+
+  }
+);
+
 </script>
-</body></html>
+
+
+</body>
+
+</html>
