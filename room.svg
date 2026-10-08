@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700">
+<defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071b1f"/><stop offset="1" stop-color="#02090b"/></linearGradient></defs>
+<rect width="1200" height="700" fill="url(#b)"/><rect x="35" y="35" width="1130" height="630" rx="22" fill="#061519" stroke="#00ff9d" stroke-width="3"/>
+<text x="600" y="90" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="34">AISA // CYBER ESCAPE NODE</text>
+<rect x="75" y="130" width="470" height="260" rx="14" fill="#02090b" stroke="#28585e" stroke-width="3"/>
+<text x="310" y="175" text-anchor="middle" fill="#8eb5ae" font-family="monospace" font-size="22">NETWORK TERMINAL</text>
+<g fill="#00ff9d" font-family="monospace" font-size="25"><text x="110" y="225">192.168.1.20</text><text x="110" y="270">10.0.0.14</text><text x="110" y="315">8.8.8.8</text><text x="110" y="360">172.20.5.9</text></g>
+<rect x="590" y="130" width="535" height="260" rx="14" fill="#02090b" stroke="#28585e" stroke-width="3"/>
+<text x="857" y="175" text-anchor="middle" fill="#8eb5ae" font-family="monospace" font-size="22">MASTER TERMINAL</text>
+<circle cx="857" cy="275" r="80" fill="none" stroke="#00ff9d" stroke-width="5"/><text x="857" y="286" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="30">LOCKED</text>
+<rect x="75" y="430" width="1050" height="160" rx="14" fill="#02090b" stroke="#28585e" stroke-width="3"/>
+<g fill="#00ff9d" font-family="monospace" font-size="22"><text x="105" y="475">[01] BINARY LOCK ........ ACTIVE</text><text x="105" y="515">[02] ENCRYPTION ......... ACTIVE</text><text x="105" y="555">[03] NETWORK TRACE ...... ACTIVE</text></g>
+</svg>
