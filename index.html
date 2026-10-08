@@ -1,25 +1,26 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
+<meta charset="utf-8">
 
 <meta
   name="viewport"
-  content="width=device-width,initial-scale=1.0"
+  content="width=device-width,initial-scale=1"
 >
 
 <title>AISA Tech Escape Room</title>
 
-
 <style>
+
+/* ============================================================
+   GLOBAL
+============================================================ */
 
 * {
   box-sizing: border-box;
 }
-
 
 body {
 
@@ -29,31 +30,16 @@ body {
 
   color: #d8f8f2;
 
-  font-family: Consolas, Monaco, monospace;
-
-  min-height: 100vh;
-
+  font:
+    15px
+    Consolas,
+    monospace;
 }
 
 
-button,
-input {
-
-  font: inherit;
-
-}
-
-
-.hidden {
-
-  display: none !important;
-
-}
-
-
-/* =========================================================
+/* ============================================================
    START SCREEN
-   ========================================================= */
+============================================================ */
 
 #start {
 
@@ -61,63 +47,60 @@ input {
 
   inset: 0;
 
+  display: grid;
+
+  place-items: center;
+
   background:
     radial-gradient(
-      circle at center,
+      circle,
       #0a3035,
       #02090b 65%
     );
 
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
+  z-index: 5;
 
   padding: 20px;
+}
 
-  z-index: 20;
 
+.card,
+.panel,
+.top {
+
+  background: #061519;
+
+  border:
+    1px solid
+    #154047;
+
+  border-radius: 14px;
 }
 
 
 .card {
 
-  width: min(620px, 100%);
+  width:
+    min(
+      620px,
+      100%
+    );
 
-  background: #061519;
-
-  border: 1px solid #1a5960;
-
-  border-radius: 18px;
-
-  padding: 30px;
-
-  box-shadow:
-    0 0 40px rgba(0,255,157,0.08);
-
+  padding: 28px;
 }
 
 
-.card h1 {
-
-  margin: 0 0 10px;
+h1,
+h2 {
 
   color: #00ff9d;
-
-  font-size: clamp(
-    28px,
-    5vw,
-    42px
-  );
-
 }
 
 
-.card p {
+h1 {
 
-  color: #8eb5ae;
-
+  margin:
+    0 0 8px;
 }
 
 
@@ -128,8 +111,7 @@ label {
   color: #8eb5ae;
 
   margin:
-    15px 0 7px;
-
+    12px 0 6px;
 }
 
 
@@ -137,354 +119,487 @@ input {
 
   width: 100%;
 
-  background: #02090b;
-
-  color: white;
-
-  border: 1px solid #28585e;
-
-  border-radius: 10px;
-
   padding: 13px;
 
-  outline: none;
+  border-radius: 9px;
 
+  border:
+    1px solid
+    #28585e;
+
+  background: #02090b;
+
+  color: #fff;
+
+  font:
+    15px
+    Consolas,
+    monospace;
+
+  outline: none;
 }
 
 
 input:focus {
 
-  border-color: #00ff9d;
+  border-color:
+    #00ff9d;
 
+  box-shadow:
+    0 0 10px
+    rgba(
+      0,
+      255,
+      157,
+      0.15
+    );
 }
 
 
-.btn {
-
-  border: 1px solid #00ff9d;
-
-  background: #00ff9d;
-
-  color: #02100c;
+button {
 
   padding:
-    13px 20px;
+    13px 18px;
 
-  border-radius: 10px;
+  border-radius: 9px;
 
-  font-weight: 800;
+  border:
+    1px solid
+    #00ff9d;
+
+  background:
+    #00ff9d;
+
+  color:
+    #02100c;
+
+  font:
+    bold 15px
+    Consolas,
+    monospace;
 
   cursor: pointer;
 
-  margin-top: 20px;
+  margin:
+    8px 6px 0 0;
 
+  transition:
+    0.2s;
 }
 
 
-.btn:hover {
+button:hover {
 
-  opacity: 0.85;
+  transform:
+    translateY(-1px);
 
+  box-shadow:
+    0 0 15px
+    rgba(
+      0,
+      255,
+      157,
+      0.25
+    );
 }
 
 
-/* =========================================================
+button.alt {
+
+  background:
+    transparent;
+
+  color:
+    #00ff9d;
+}
+
+
+.hidden {
+
+  display:
+    none !important;
+}
+
+
+/* ============================================================
    GAME
-   ========================================================= */
+============================================================ */
 
 #game {
 
-  max-width: 1250px;
+  max-width:
+    1200px;
 
-  margin: auto;
+  margin:
+    auto;
 
-  padding: 15px;
-
+  padding:
+    15px;
 }
 
 
 .top {
 
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  gap: 10px;
-
-  flex-wrap: wrap;
-
-  background: #061519;
-
-  border: 1px solid #154047;
-
-  border-radius: 14px;
-
   padding:
-    14px 16px;
+    13px 16px;
 
-  position: sticky;
+  display:
+    flex;
 
-  top: 5px;
+  justify-content:
+    space-between;
 
-  z-index: 10;
+  align-items:
+    center;
 
-}
+  gap:
+    10px;
 
+  flex-wrap:
+    wrap;
 
-.brand {
+  position:
+    sticky;
 
-  color: #00ff9d;
+  top:
+    5px;
 
-  font-weight: 900;
-
-}
-
-
-.badge {
-
-  display: inline-block;
-
-  padding:
-    7px 10px;
-
-  border:
-    1px solid #28585e;
-
-  border-radius: 8px;
-
-  background: #02090b;
-
-  margin-left: 5px;
-
+  z-index:
+    4;
 }
 
 
 .green {
 
-  color: #00ff9d;
-
+  color:
+    #00ff9d;
 }
 
 
+.badge {
+
+  display:
+    inline-block;
+
+  border:
+    1px solid
+    #28585e;
+
+  padding:
+    7px 10px;
+
+  border-radius:
+    8px;
+
+  margin:
+    2px;
+}
+
+
+/* ============================================================
+   PROGRESS
+============================================================ */
+
 .progress {
 
-  height: 8px;
+  height:
+    7px;
 
-  background: #082126;
+  background:
+    #082126;
 
-  border-radius: 10px;
+  margin-top:
+    10px;
 
-  overflow: hidden;
+  border-radius:
+    8px;
 
-  margin-top: 10px;
-
+  overflow:
+    hidden;
 }
 
 
 .progress i {
 
-  display: block;
+  display:
+    block;
 
-  height: 100%;
+  height:
+    100%;
 
-  background: #00ff9d;
+  background:
+    #00ff9d;
 
-  width: 0;
+  width:
+    0%;
 
   transition:
-    width 0.3s ease;
-
+    width 0.4s ease;
 }
 
 
+/* ============================================================
+   LAYOUT
+============================================================ */
+
 .layout {
 
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     1fr 1fr;
 
-  gap: 18px;
+  gap:
+    16px;
 
-  margin-top: 18px;
-
+  margin-top:
+    16px;
 }
 
 
 .panel {
 
-  background: #061519;
-
-  border:
-    1px solid #154047;
-
-  border-radius: 14px;
-
-  padding: 18px;
-
+  padding:
+    17px;
 }
 
 
+/* ============================================================
+   ROOM IMAGE
+============================================================ */
+
 .room {
 
-  width: 100%;
+  width:
+    100%;
 
-  height: 360px;
+  height:
+    350px;
 
-  object-fit: cover;
+  object-fit:
+    cover;
 
-  border-radius: 10px;
+  border-radius:
+    10px;
 
   border:
-    1px solid #28585e;
-
+    1px solid
+    #28585e;
 }
 
 
 .level {
 
-  color: #00ff9d;
+  color:
+    #00ff9d;
 
-  letter-spacing: 2px;
+  letter-spacing:
+    2px;
 
-  font-size: 13px;
-
+  font-size:
+    14px;
 }
 
 
 .question {
 
-  font-size: 19px;
+  white-space:
+    pre-line;
 
-  line-height: 1.55;
+  font-size:
+    19px;
 
-  color: white;
+  line-height:
+    1.5;
 
-  white-space: pre-line;
+  color:
+    #fff;
 
-  margin:
-    15px 0;
-
+  margin-top:
+    12px;
 }
 
 
 .clue {
 
-  background: #071b1f;
-
-  border-left:
-    3px solid #00ff9d;
-
-  padding: 12px;
-
   margin:
     15px 0;
 
-  color: #b8d7d1;
+  padding:
+    12px;
 
+  background:
+    #071b1f;
+
+  border-left:
+    3px solid
+    #00ff9d;
+
+  color:
+    #b8d7d1;
+
+  white-space:
+    pre-line;
 }
 
 
 #feedback {
 
-  min-height: 28px;
+  min-height:
+    28px;
 
-  margin-top: 12px;
+  margin-top:
+    10px;
 
-  font-weight: bold;
-
+  font-weight:
+    bold;
 }
 
 
 .good {
 
-  color: #00ff9d;
-
+  color:
+    #00ff9d;
 }
 
 
 .bad {
 
-  color: #ff6666;
-
+  color:
+    #ff6666;
 }
 
 
 .hint {
 
-  color: #ffd166;
-
+  color:
+    #ffd166;
 }
 
 
-.alt {
-
-  background: transparent;
-
-  color: #00ff9d;
-
-  border:
-    1px solid #00ff9d;
-
-  padding:
-    12px 18px;
-
-  border-radius: 9px;
-
-  cursor: pointer;
-
-  margin-top: 10px;
-
-}
-
+/* ============================================================
+   FINISH SCREEN
+============================================================ */
 
 .finish {
 
-  text-align: center;
+  text-align:
+    center;
 
+  padding:
+    45px 20px;
 }
 
 
-.big {
+.finish .big {
 
-  font-size: 60px;
+  font-size:
+    70px;
 
-  color: #00ff9d;
+  color:
+    #00ff9d;
 
+  text-shadow:
+    0 0 25px
+    rgba(
+      0,
+      255,
+      157,
+      0.4
+    );
+
+  margin-bottom:
+    10px;
 }
 
 
 .finish h2 {
 
-  color: #00ff9d;
+  font-size:
+    28px;
 
+  margin:
+    12px 0;
 }
 
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
+.finish p {
 
-@media(max-width: 800px) {
+  font-size:
+    16px;
+
+  line-height:
+    1.6;
+}
+
+
+.finish .final-time {
+
+  font-size:
+    32px;
+
+  color:
+    #00ff9d;
+
+  font-weight:
+    bold;
+
+  margin:
+    20px 0;
+}
+
+
+.save-status {
+
+  margin-top:
+    25px;
+
+  padding:
+    12px;
+
+  border:
+    1px solid
+    #00ff9d;
+
+  border-radius:
+    8px;
+
+  color:
+    #00ff9d;
+
+  background:
+    rgba(
+      0,
+      255,
+      157,
+      0.04
+    );
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media(max-width:800px) {
 
   .layout {
 
-    grid-template-columns: 1fr;
-
+    grid-template-columns:
+      1fr;
   }
 
   .room {
 
-    height: 260px;
-
+    height:
+      260px;
   }
 
-  .top {
+  .question {
 
-    position: static;
-
+    font-size:
+      17px;
   }
 
 }
@@ -497,20 +612,39 @@ input:focus {
 <body>
 
 
-<!-- =======================================================
+<!-- ==========================================================
+     HIDDEN SUBMISSION FRAME
+
+     Google Apps Script receives the form POST here.
+=========================================================== -->
+
+<iframe
+  name="aisa_submit_frame"
+  id="aisa_submit_frame"
+  style="
+    display:none;
+    width:0;
+    height:0;
+    border:0;
+  "
+></iframe>
+
+
+<!-- ==========================================================
      START SCREEN
-     ======================================================= -->
+=========================================================== -->
 
 <div id="start">
 
   <div class="card">
 
-    <h1>🔐 AISA TECH ESCAPE</h1>
+    <h1>
+      🔐 AISA TECH ESCAPE
+    </h1>
 
     <p>
       7-level cyber mission • Team of 2
     </p>
-
 
     <label>
       Team Name
@@ -520,6 +654,7 @@ input:focus {
       id="team"
       maxlength="30"
       placeholder="TEAM ALPHA"
+      autocomplete="off"
     >
 
 
@@ -531,6 +666,7 @@ input:focus {
       id="m1"
       maxlength="40"
       placeholder="Participant name"
+      autocomplete="off"
     >
 
 
@@ -542,11 +678,11 @@ input:focus {
       id="m2"
       maxlength="40"
       placeholder="Participant name"
+      autocomplete="off"
     >
 
 
     <button
-      class="btn"
       onclick="startGame()"
     >
       INITIALIZE MISSION
@@ -557,9 +693,9 @@ input:focus {
 </div>
 
 
-<!-- =======================================================
-     GAME
-     ======================================================= -->
+<!-- ==========================================================
+     GAME SCREEN
+=========================================================== -->
 
 <div
   id="game"
@@ -567,34 +703,46 @@ input:focus {
 >
 
 
+  <!-- TOP BAR -->
+
   <div class="top">
 
-    <div class="brand">
+    <b class="green">
       🔐 AISA // ESCAPE NODE
-    </div>
+    </b>
 
 
     <div>
 
       <span class="badge">
+
         TEAM:
-        <b id="tv"></b>
+
+        <b id="tv">
+        </b>
+
       </span>
 
 
       <span class="badge">
+
         TIME:
+
         <b id="timer">
           00:00
         </b>
+
       </span>
 
 
       <span class="badge">
+
         LEVEL:
+
         <b id="lv">
           1/7
         </b>
+
       </span>
 
     </div>
@@ -602,17 +750,22 @@ input:focus {
   </div>
 
 
+  <!-- PROGRESS BAR -->
+
   <div class="progress">
 
-    <i id="bar"></i>
+    <i id="bar">
+    </i>
 
   </div>
 
 
+  <!-- MAIN LAYOUT -->
+
   <div class="layout">
 
 
-    <!-- ROOM IMAGE -->
+    <!-- LEFT PANEL -->
 
     <div class="panel">
 
@@ -630,296 +783,226 @@ input:focus {
     </div>
 
 
-    <!-- PUZZLE -->
+    <!-- RIGHT PANEL -->
 
     <div
       class="panel"
       id="puzzle"
-    ></div>
+    >
+    </div>
 
 
   </div>
 
-
 </div>
-
-
-<!-- =======================================================
-     HIDDEN SUBMIT FRAME
-     ======================================================= -->
-
-<iframe
-  name="aisa_submit_frame"
-  id="aisa_submit_frame"
-  style="display:none"
-></iframe>
 
 
 <script>
 
 
-// ============================================================
-// GOOGLE APPS SCRIPT URL
-// ============================================================
+/* ============================================================
+   GOOGLE APPS SCRIPT WEB APP URL
+============================================================ */
 
 const API =
-"https://script.google.com/macros/s/AKfycbxyrkIEMWMQOqbti6h3AoLKYX-5hD8ql-WsuWoLoTilPzqsD-MiVfkFmamtsOzQfpia/exec";
+  "https://script.google.com/macros/s/AKfycbxyrkIEMWMQOqbti6h3AoLKYX-5hD8ql-WsuWoLoTilPzqsD-MiVfkFmamtsOzQfpia/exec";
 
 
-// ============================================================
-// PUZZLES
-// ============================================================
+/* ============================================================
+   7 LEVELS
+============================================================ */
 
-const LEVELS = [
+const L = [
 
+  [
+    "CYBER LOCK",
 
-  // ----------------------------------------------------------
-  // LEVEL 1
-  // ----------------------------------------------------------
-
-  {
-    title: "CYBER LOCK",
-
-    question:
-`A binary lock displays:
+    `A binary lock displays:
 
 01000110 01001001 01010110 01000101
 
 Convert it to a word.
-Count its letters and multiply by 7.`,
+Count its letters × 7.`,
 
-    hint:
-      "01000110=F, 01001001=I, 01010110=V, 01000101=E.",
+    "01000110=F, 01001001=I, 01010110=V, 01000101=E.",
 
-    answer: "28"
-
-  },
+    "28"
+  ],
 
 
-  // ----------------------------------------------------------
-  // LEVEL 2
-  // ----------------------------------------------------------
+  [
+    "ENCRYPTED MESSAGE",
 
-  {
-    title: "ENCRYPTED MESSAGE",
+    `KHOOR is encrypted with a Caesar shift.
 
-    question:
-`KHOOR is encrypted with a Caesar shift.
+Shift each letter backward by 3.
 
-Shift every letter backward by 3.
+Then calculate H + O
+using A=1...Z=26.`,
 
-Then calculate H + O using A=1 ... Z=26.`,
+    "KHOOR → HELLO. H=8, O=15.",
 
-    hint:
-      "KHOOR → HELLO. H=8 and O=15.",
-
-    answer: "23"
-
-  },
+    "23"
+  ],
 
 
-  // ----------------------------------------------------------
-  // LEVEL 3
-  // ----------------------------------------------------------
+  [
+    "LOGIC GRID",
 
-  {
-    title: "LOGIC GRID",
+    `Codes:
 
-    question:
-`Codes:
+A=14
+B=25
+C=36
+D=47
 
-A = 14
-B = 25
-C = 36
-D = 47
-
-Find the code whose first digit is PRIME
-and whose second digit is EVEN.
+Find the code whose first digit
+is PRIME and second digit is EVEN.
 
 Multiply its first digit by 3.`,
 
-    hint:
-      "36 works: 3 is prime and 6 is even.",
+    "36 works: 3 is prime and 6 is even.",
 
-    answer: "9"
-
-  },
+    "9"
+  ],
 
 
-  // ----------------------------------------------------------
-  // LEVEL 4
-  // ----------------------------------------------------------
+  [
+    "NETWORK TRACE",
 
-  {
-    title: "NETWORK TRACE",
+    `PC-A 192.168.1.20
+PC-B 10.0.0.14
+PC-C 8.8.8.8
+PC-D 172.20.5.9
 
-    question:
-`PC-A  192.168.1.20
-PC-B  10.0.0.14
-PC-C  8.8.8.8
-PC-D  172.20.5.9
+Choose the PRIVATE address
+with an EVEN last octet,
+but NOT 192.168.x.x.
 
-Choose the PRIVATE address with an EVEN
-last octet, but NOT 192.168.x.x.
+Add 6.`,
 
-Add 6 to its last octet.`,
+    "10.0.0.14 → 14+6.",
 
-    hint:
-      "10.0.0.14 → 14 + 6.",
-
-    answer: "20"
-
-  },
+    "20"
+  ],
 
 
-  // ----------------------------------------------------------
-  // LEVEL 5
-  // ----------------------------------------------------------
+  [
+    "DEBUG THE AI",
 
-  {
-    title: "DEBUG THE AI",
-
-    question:
-`values = [2,4,1]
-
-x = 0
-
-for v:
-    x = x*10 + v
-
-x = x + 5
-
-print(x * 2)
+    `values=[2,4,1]
+x=0
+for v: x=x*10+v
+x=x+5
+print(x*2)
 
 What is printed?`,
 
-    hint:
-      "241 → +5 = 246 → ×2.",
+    "241 → +5 = 246 → ×2.",
 
-    answer: "492"
-
-  },
+    "492"
+  ],
 
 
-  // ----------------------------------------------------------
-  // LEVEL 6
-  // ----------------------------------------------------------
+  [
+    "DATABASE BREACH",
 
-  {
-    title: "DATABASE BREACH",
+    `Scores:
 
-    question:
-`Scores:
-
-Arun  72
+Arun 72
 Kabir 88
-Neha  79
+Neha 79
 
-Keep scores >=75.
-Sort highest first.
+Keep scores >=75,
+sort highest first,
+then take the first person's
+initial's alphabet position.`,
 
-Then take the first person's initial's
-alphabet position.`,
+    "Kabir is first. K is 11.",
 
-    hint:
-      "Kabir is first. K is the 11th letter.",
-
-    answer: "11"
-
-  },
+    "11"
+  ],
 
 
-  // ----------------------------------------------------------
-  // LEVEL 7
-  // ----------------------------------------------------------
+  [
+    "MASTER TERMINAL",
 
-  {
-    title: "MASTER TERMINAL",
+    `L1=28
+L2=23
+L3=9
+L4=20
+L5=492
+L6=11
 
-    question:
-`Previous answers:
+A=L1+L2
+B=L3+L4
+C=last digit of L5
+D=L6
 
-L1 = 28
-L2 = 23
-L3 = 9
-L4 = 20
-L5 = 492
-L6 = 11
+Join A,B,C,D with no symbols.`,
 
-A = L1 + L2
-B = L3 + L4
-C = last digit of L5
-D = L6
+    "A=51, B=29, C=2, D=11 → 5129211",
 
-Join A, B, C and D with NO symbols.`,
-
-    hint:
-      "A=51, B=29, C=2, D=11 → 5129211",
-
-    answer: "5129211"
-
-  }
+    "5129211"
+  ]
 
 ];
 
 
-// ============================================================
-// GAME STATE
-// ============================================================
+/* ============================================================
+   GAME STATE
+============================================================ */
 
-let state = {
+let S = {
 
   team: "",
 
-  member1: "",
+  m1: "",
 
-  member2: "",
+  m2: "",
 
-  level: 0,
+  n: 0,
 
-  hints: 0,
+  h: 0,
 
-  startTime: 0,
+  start: 0,
 
-  finished: false,
+  lock: false,
 
-  locked: false
+  finished: false
 
 };
 
 
-// ============================================================
-// START GAME
-// ============================================================
+/* ============================================================
+   START GAME
+============================================================ */
 
 function startGame() {
 
 
-  state.team =
-    document
-      .getElementById("team")
+  S.team =
+    document.getElementById("team")
       .value
       .trim();
 
 
-  state.member1 =
-    document
-      .getElementById("m1")
+  S.m1 =
+    document.getElementById("m1")
       .value
       .trim();
 
 
-  state.member2 =
-    document
-      .getElementById("m2")
+  S.m2 =
+    document.getElementById("m2")
       .value
       .trim();
 
 
   if (
-    !state.team ||
-    !state.member1 ||
-    !state.member2
+    !S.team ||
+    !S.m1 ||
+    !S.m2
   ) {
 
     alert(
@@ -931,15 +1014,17 @@ function startGame() {
   }
 
 
-  state.level = 0;
+  S.start =
+    Date.now();
 
-  state.hints = 0;
 
-  state.finished = false;
+  S.n = 0;
 
-  state.locked = false;
+  S.h = 0;
 
-  state.startTime = Date.now();
+  S.lock = false;
+
+  S.finished = false;
 
 
   document
@@ -957,44 +1042,48 @@ function startGame() {
   document
     .getElementById("tv")
     .textContent =
-      state.team;
+      S.team;
 
 
-  renderLevel();
+  document
+    .getElementById("timer")
+    .textContent =
+      "00:00";
 
 
-  // SAVE START
-  sendResult("STARTED");
+  render();
+
+
+  // Save initial STARTED result
+
+  send("STARTED");
 
 }
 
 
-// ============================================================
-// RENDER LEVEL
-// ============================================================
+/* ============================================================
+   RENDER LEVEL
+============================================================ */
 
-function renderLevel() {
+function render() {
 
 
-  const level =
-    LEVELS[state.level];
+  const x =
+    L[S.n];
 
 
   document
     .getElementById("lv")
     .textContent =
-      (state.level + 1) +
+      (S.n + 1) +
       "/7";
 
 
   document
     .getElementById("bar")
     .style.width =
-      (
-        state.level /
-        LEVELS.length *
-        100
-      ) + "%";
+      ((S.n / 7) * 100) +
+      "%";
 
 
   document
@@ -1003,23 +1092,21 @@ function renderLevel() {
 
       <div class="level">
 
-        LEVEL ${state.level + 1}
+        LEVEL ${S.n + 1}
         //
-        ${escapeHTML(level.title)}
+        ${esc(x[0])}
 
       </div>
 
 
       <h2>
-
-        ${escapeHTML(level.title)}
-
+        ${esc(x[0])}
       </h2>
 
 
       <div class="question">
 
-        ${escapeHTML(level.question)}
+        ${esc(x[1])}
 
       </div>
 
@@ -1027,112 +1114,96 @@ function renderLevel() {
       <div class="clue">
 
         MISSION:
-        Solve the puzzle and
-        submit the answer.
+        Solve and submit.
 
       </div>
 
 
       <input
-        id="answer"
+        id="ans"
         inputmode="numeric"
         autocomplete="off"
         placeholder="ENTER ANSWER"
       >
 
 
-      <br>
-
-
       <button
-        class="btn"
-        onclick="checkAnswer()"
+        onclick="check()"
       >
-
         SUBMIT
-
       </button>
 
 
       <button
         class="alt"
-        onclick="showHint()"
+        onclick="hint()"
       >
-
         HINT (-1)
-
       </button>
 
 
-      <div
-        id="feedback"
-      ></div>
+      <div id="feedback">
+      </div>
 
-    `;
+  `;
 
 
   const answer =
-    document.getElementById(
-      "answer"
-    );
+    document.getElementById("ans");
 
 
   answer.focus();
 
 
-  answer.addEventListener(
-    "keydown",
-    function(event) {
+  answer.onkeydown =
+    function(e) {
 
       if (
-        event.key === "Enter"
+        e.key ===
+        "Enter"
       ) {
 
-        checkAnswer();
+        check();
 
       }
 
-    }
-  );
+    };
 
 }
 
 
-// ============================================================
-// CHECK ANSWER
-// ============================================================
+/* ============================================================
+   CHECK ANSWER
+============================================================ */
 
-function checkAnswer() {
-
-
-  if (state.locked) {
-    return;
-  }
-
-
-  const input =
-    document.getElementById(
-      "answer"
-    );
-
-
-  const feedback =
-    document.getElementById(
-      "feedback"
-    );
-
-
-  const userAnswer =
-    input.value.trim();
-
-
-  const correctAnswer =
-    LEVELS[state.level].answer;
+function check() {
 
 
   if (
-    userAnswer ===
-    correctAnswer
+    S.lock ||
+    S.finished
+  ) {
+
+    return;
+
+  }
+
+
+  const answer =
+    document
+      .getElementById("ans")
+      .value
+      .trim();
+
+
+  const feedback =
+    document
+      .getElementById("feedback");
+
+
+  if (
+    answer ===
+    L[S.n][3]
   ) {
 
 
@@ -1144,47 +1215,63 @@ function checkAnswer() {
       "✓ ACCESS GRANTED";
 
 
-    state.locked = true;
+    S.lock =
+      true;
 
 
     setTimeout(
+
       function() {
 
 
-        state.locked = false;
+        S.lock =
+          false;
 
 
-        // LAST LEVEL
+        /*
+         * LEVEL 7 COMPLETE
+         */
+
         if (
-          state.level ===
-          LEVELS.length - 1
+          S.n === 6
         ) {
 
-          finishGame();
+          finish();
 
           return;
 
         }
 
 
-        state.level++;
+        /*
+         * NEXT LEVEL
+         */
+
+        S.n++;
 
 
-        // SAVE PROGRESS
-        sendResult("STARTED");
+        /*
+         * Save progress
+         */
+
+        send("STARTED");
 
 
-        renderLevel();
+        /*
+         * Render next level
+         */
+
+        render();
 
 
       },
-      600
+
+      500
+
     );
 
 
-  }
-
-  else {
+  } else {
 
 
     feedback.className =
@@ -1195,27 +1282,37 @@ function checkAnswer() {
       "✕ ACCESS DENIED — TRY AGAIN";
 
 
-    input.select();
+    document
+      .getElementById("ans")
+      .select();
 
   }
 
 }
 
 
-// ============================================================
-// HINT
-// ============================================================
+/* ============================================================
+   HINT
+============================================================ */
 
-function showHint() {
+function hint() {
 
 
-  state.hints++;
+  if (
+    S.finished
+  ) {
+
+    return;
+
+  }
+
+
+  S.h++;
 
 
   const feedback =
-    document.getElementById(
-      "feedback"
-    );
+    document
+      .getElementById("feedback");
 
 
   feedback.className =
@@ -1224,32 +1321,54 @@ function showHint() {
 
   feedback.textContent =
     "HINT: " +
-    LEVELS[state.level].hint;
+    L[S.n][2];
 
 
-  sendResult("STARTED");
+  /*
+   * Save current progress
+   */
+
+  send("STARTED");
 
 }
 
 
-// ============================================================
-// FINISH GAME
-// ============================================================
+/* ============================================================
+   FINISH GAME
+============================================================ */
 
-function finishGame() {
+function finish() {
 
 
-  state.finished = true;
+  if (
+    S.finished
+  ) {
 
+    return;
+
+  }
+
+
+  S.finished =
+    true;
+
+
+  /*
+   * Calculate final time
+   */
 
   const elapsed =
     Math.floor(
       (
         Date.now() -
-        state.startTime
+        S.start
       ) / 1000
     );
 
+
+  /*
+   * Update progress
+   */
 
   document
     .getElementById("bar")
@@ -1257,12 +1376,29 @@ function finishGame() {
       "100%";
 
 
-  // STOP TIMER DISPLAY
+  /*
+   * Stop timer on exact final time
+   */
+
   document
     .getElementById("timer")
     .textContent =
-      formatTime(elapsed);
+      fmt(elapsed);
 
+
+  /*
+   * Make sure level says 7/7
+   */
+
+  document
+    .getElementById("lv")
+    .textContent =
+      "7/7";
+
+
+  /*
+   * SHOW FINAL SCREEN
+   */
 
   document
     .getElementById("puzzle")
@@ -1270,76 +1406,116 @@ function finishGame() {
 
       <div class="finish">
 
+
         <div class="big">
+
           ✓
+
         </div>
 
 
         <h2>
+
           MISSION COMPLETE
+
         </h2>
 
 
         <p>
+
           Team
+
           <b>
-            ${escapeHTML(state.team)}
+            ${esc(S.team)}
           </b>
+
           cleared all 7 levels.
+
         </p>
 
 
-        <h2>
-          ${formatTime(elapsed)}
-        </h2>
+        <div class="final-time">
+
+          ${fmt(elapsed)}
+
+        </div>
 
 
         <p>
+
           Hints used:
-          <b>${state.hints}</b>
+
+          <b>
+            ${S.h}
+          </b>
+
         </p>
 
 
-        <p class="good">
+        <div class="save-status">
 
           RESULT SAVED FOR ADMIN
 
-        </p>
+        </div>
+
 
       </div>
 
   `;
 
 
-  // FINAL RESULT
-  sendResult("FINISHED");
+  /*
+   * IMPORTANT:
+   *
+   * Send the FINAL result after the
+   * completion screen is created.
+   */
+
+  send("FINISHED");
 
 }
 
 
-// ============================================================
-// SEND RESULT
-//
-// Uses a normal HTML form POST to a hidden iframe.
-// This avoids CORS/fetch problems.
-// ============================================================
+/* ============================================================
+   SEND RESULT TO GOOGLE APPS SCRIPT
+============================================================ */
 
-function sendResult(status) {
+/*
+ * We use a normal HTML form POST
+ * to a hidden iframe.
+ *
+ * This is more reliable for Google Apps Script
+ * than fetch() + CORS.
+ */
+
+function send(status) {
 
 
-  if (!API) {
+  if (
+    !API
+  ) {
+
     return;
+
   }
 
+
+  /*
+   * Current elapsed time
+   */
 
   const elapsed =
     Math.floor(
       (
         Date.now() -
-        state.startTime
+        S.start
       ) / 1000
     );
 
+
+  /*
+   * Create form
+   */
 
   const form =
     document.createElement(
@@ -1363,28 +1539,32 @@ function sendResult(status) {
     "none";
 
 
+  /*
+   * Data sent to Apps Script
+   */
+
   const data = {
 
     team:
-      state.team,
+      S.team,
 
     member1:
-      state.member1,
+      S.m1,
 
     member2:
-      state.member2,
+      S.m2,
 
     status:
       status,
 
     level:
       String(
-        state.level + 1
+        S.n + 1
       ),
 
     hints:
       String(
-        state.hints
+        S.h
       ),
 
     elapsedSeconds:
@@ -1395,8 +1575,14 @@ function sendResult(status) {
   };
 
 
-  Object.keys(data)
+  /*
+   * Add hidden fields
+   */
+
+  Object
+    .keys(data)
     .forEach(
+
       function(key) {
 
 
@@ -1422,20 +1608,33 @@ function sendResult(status) {
           input
         );
 
-
       }
+
     );
 
+
+  /*
+   * Add form to page
+   */
 
   document.body.appendChild(
     form
   );
 
 
+  /*
+   * Submit to Apps Script
+   */
+
   form.submit();
 
 
+  /*
+   * Remove form later
+   */
+
   setTimeout(
+
     function() {
 
       if (
@@ -1443,57 +1642,26 @@ function sendResult(status) {
       ) {
 
         form.parentNode
-          .removeChild(form);
+          .removeChild(
+            form
+          );
 
       }
 
     },
-    2000
+
+    3000
+
   );
 
 }
 
 
-// ============================================================
-// TIMER
-// ============================================================
+/* ============================================================
+   FORMAT TIME
+============================================================ */
 
-setInterval(
-  function() {
-
-
-    if (
-      state.startTime &&
-      !state.finished
-    ) {
-
-
-      const seconds =
-        Math.floor(
-          (
-            Date.now() -
-            state.startTime
-          ) / 1000
-        );
-
-
-      document
-        .getElementById("timer")
-        .textContent =
-          formatTime(seconds);
-
-    }
-
-  },
-  1000
-);
-
-
-// ============================================================
-// FORMAT TIME
-// ============================================================
-
-function formatTime(seconds) {
+function fmt(seconds) {
 
 
   const minutes =
@@ -1507,51 +1675,109 @@ function formatTime(seconds) {
 
 
   return (
+
     String(minutes)
-      .padStart(2, "0") +
+      .padStart(
+        2,
+        "0"
+      )
+
+    +
+
     ":" +
+
     String(remaining)
-      .padStart(2, "0")
+      .padStart(
+        2,
+        "0"
+      )
+
   );
 
 }
 
 
-// ============================================================
-// HTML ESCAPE
-// ============================================================
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
 
-function escapeHTML(value) {
+function esc(value) {
 
 
   return String(value)
+
     .replace(
       /[&<>"']/g,
-      function(character) {
+
+      function(c) {
 
         return {
 
-          "&": "&amp;",
+          "&":
+            "&amp;",
 
-          "<": "&lt;",
+          "<":
+            "&lt;",
 
-          ">": "&gt;",
+          ">":
+            "&gt;",
 
-          '"': "&quot;",
+          '"':
+            "&quot;",
 
-          "'": "&#39;"
+          "'":
+            "&#39;"
 
-        }[character];
+        }[c];
 
       }
+
     );
 
 }
 
 
-// ============================================================
-// PREVENT GAME FROM OPENING NEW WINDOWS
-// ============================================================
+/* ============================================================
+   TIMER
+============================================================ */
+
+setInterval(
+
+  function() {
+
+
+    if (
+      S.start &&
+      !S.finished
+    ) {
+
+
+      const elapsed =
+        Math.floor(
+          (
+            Date.now() -
+            S.start
+          ) / 1000
+        );
+
+
+      document
+        .getElementById("timer")
+        .textContent =
+          fmt(elapsed);
+
+    }
+
+  },
+
+  1000
+
+);
+
+
+/* ============================================================
+   PREVENT GAME FROM OPENING NEW WINDOWS
+============================================================ */
 
 window.open =
   function() {
@@ -1562,27 +1788,33 @@ window.open =
 
 
 document.addEventListener(
+
   "click",
-  function(event) {
+
+  function(e) {
 
 
-    const link =
-      event.target.closest &&
-      event.target.closest("a");
+    const a =
+      e.target.closest &&
+      e.target.closest("a");
 
 
-    if (link) {
+    if (
+      a
+    ) {
 
-      link.target =
+      a.target =
         "_self";
 
     }
 
-  }
+  },
+
+  true
+
 );
 
 </script>
-
 
 </body>
 
